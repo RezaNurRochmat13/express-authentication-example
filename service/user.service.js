@@ -12,3 +12,21 @@ exports.createUser = async(payload) => {
 
     return await userRepository.save(user);
 }
+
+exports.signInUser = async(payload) => {
+    const user = await userRepository.findByEmail(payload.body.email);
+
+    if (user != null) {
+        const checkPassword = await bcrypt.compare(
+            payload.body.password, user.password
+        );
+
+        if (checkPassword) {
+            return user;
+        } else {
+            throw Error('Invalid password');
+        }
+    } else {
+        return null;
+    }
+}
