@@ -8,7 +8,7 @@ exports.save = async(payload) => {
 }
 
 exports.findByEmail = async(email) => {
-    const userByEmail = await User.findOne({ email: email });
+    const userByEmail = await User.findOne({ where: { email: email } });
 
     return userByEmail;
 }
