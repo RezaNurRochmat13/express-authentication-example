@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const app = express();
 const PORT = 8989;
 const userController = require('./controller/users.controller.js');
+const carController = require('./controller/cars.controller.js');
 
 // Load env variable
 dotenv.config();
@@ -16,6 +17,9 @@ app.get('/', (request, response) => {
 // AUTH ENDPOINT
 app.post('/auth/signup', userController.createNewUserApi);
 app.post('/auth/signin', userController.signUserApi);
+
+// CAR ENDPOINT
+app.get('/cars', carController.findAllCarsApi);
 
 
 app.listen(PORT, () => {
