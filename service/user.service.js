@@ -24,7 +24,7 @@ exports.signInUser = async(payload) => {
         if (checkPassword) {
             return user;
         } else {
-            throw Error('Invalid password');
+            return null;
         }
     } else {
         return null;
