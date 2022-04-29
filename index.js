@@ -1,7 +1,11 @@
 const express = require('express');
+const dotenv = require('dotenv');
 const app = express();
 const PORT = 8989;
 const userController = require('./controller/users.controller.js');
+
+// Load env variable
+dotenv.config();
 
 app.use(express.json());
 
