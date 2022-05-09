@@ -20,6 +20,7 @@ app.post('/auth/signin', userController.signUserApi);
 
 // CAR ENDPOINT
 app.get('/cars', carController.findAllCarsApi);
+app.get('/cars/:id', carController.findCarByIdApi);
 
 
 app.listen(PORT, () => {
