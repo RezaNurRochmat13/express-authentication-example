@@ -9,7 +9,6 @@ const carController = require('./controller/cars.controller.js');
 // Load env variable
 dotenv.config();
 
-app.use(express.json());
 app.use(formidable());
 
 app.get('/', (request, response) => {
