@@ -15,3 +15,9 @@ exports.findCarByIdApi = async(request, response) => {
         response.status(404).json({ error: `Car not found with id ${request.params.id}` });
     }
 };
+
+exports.createNewCarApi = async(request, response) => {
+    const car = await carService.createNewCar(request);
+
+    response.status(201).json({ data: car });
+};

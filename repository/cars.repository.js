@@ -8,3 +8,7 @@ exports.findAll = async() => {
 exports.findById = async(id) => {
     return await Car.findByPk(id);
 };
+
+exports.save = async(car) => {
+    return await Car.create(car);
+};
