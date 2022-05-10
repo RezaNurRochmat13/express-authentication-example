@@ -10,8 +10,18 @@ exports.createUser = async(payload) => {
         password: encryptedPassword
     };
 
-    return await userRepository.save(user);
-}
+    if (payload.body.role == "superadmin") {
+        user.id_role = 2;
+
+        return await userRepository.save(user);
+    }
+
+    if (payload.body.role == "member") {
+        user.id_role = 3;
+
+        return await userRepository.save(user);
+    }
+};
 
 exports.signInUser = async(payload) => {
     const user = await userRepository.findByEmail(payload.body.email);
