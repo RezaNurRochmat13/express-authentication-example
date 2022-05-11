@@ -23,6 +23,7 @@ app.post('/auth/signin', userController.signUserApi);
 app.get('/cars', carController.findAllCarsApi);
 app.get('/cars/:id', carController.findCarByIdApi);
 app.post('/cars', carController.createNewCarApi);
+app.put('/cars/:id', carController.updateCarApi);
 
 
 app.listen(PORT, () => {

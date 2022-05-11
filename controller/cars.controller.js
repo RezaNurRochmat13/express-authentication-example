@@ -21,3 +21,13 @@ exports.createNewCarApi = async(request, response) => {
 
     response.status(201).json({ data: car });
 };
+
+exports.updateCarApi = async(request, response) => {
+    const car = await carService.updateCar(request, request.params.id);
+
+    if (car == null) {
+        response.status(404).json({ error: `Car not found with ids : ${request.params.id}` });
+    } else {
+        response.json({ message: "Updated successfully" });
+    }
+};

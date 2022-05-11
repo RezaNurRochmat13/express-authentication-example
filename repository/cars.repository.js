@@ -12,3 +12,7 @@ exports.findById = async(id) => {
 exports.save = async(car) => {
     return await Car.create(car);
 };
+
+exports.update = async(car, ids) => {
+    return await Car.update(car, { where: { id: ids } })
+};

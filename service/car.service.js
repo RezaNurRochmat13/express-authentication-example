@@ -27,3 +27,26 @@ exports.createNewCar = async(payload) => {
     }
 
 };
+
+exports.updateCar = async(payload, ids) => {
+    try {
+        const uploadFoto = await cloudinaryConfig.uploader.upload(payload.files.foto.path);
+
+        const car = {
+            nama: payload.fields.nama,
+            sewa: payload.fields.sewa,
+            ukuran: payload.fields.ukuran,
+            foto: uploadFoto.secure_url
+        };
+
+        const carById = await carRepository.findById(ids);
+
+        if (carById == null) {
+            return null;
+        } else {
+            return await carRepository.update(car, ids);
+        }
+    } catch (err) {
+        console.error(err);
+    }
+};
