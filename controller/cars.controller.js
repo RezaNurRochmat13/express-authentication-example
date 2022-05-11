@@ -31,3 +31,14 @@ exports.updateCarApi = async(request, response) => {
         response.json({ message: "Updated successfully" });
     }
 };
+
+exports.deleteCar = async(request, response) => {
+    const carById = await carService.findCarById(request.params.id);
+
+    if (carById == null) {
+        response.status(404).json({ error: `Car not found with ids : ${request.params.id}` });
+    } else {
+        carService.deleteCar(carById);
+        response.json({ message: "Deleted successfully" });
+    }
+};

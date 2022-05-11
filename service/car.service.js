@@ -1,5 +1,6 @@
 const carRepository = require('../repository/cars.repository.js');
 const cloudinaryConfig = require('../config/cloudinary.config.js');
+const { car } = require('../models/index.js');
 
 exports.findAllCars = async() => {
     return await carRepository.findAll();
@@ -49,4 +50,8 @@ exports.updateCar = async(payload, ids) => {
     } catch (err) {
         console.error(err);
     }
+};
+
+exports.deleteCar = async(car) => {
+    carRepository.delete(car);
 };

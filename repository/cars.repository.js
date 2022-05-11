@@ -16,3 +16,7 @@ exports.save = async(car) => {
 exports.update = async(car, ids) => {
     return await Car.update(car, { where: { id: ids } })
 };
+
+exports.delete = async(car) => {
+    car.destroy();
+};
