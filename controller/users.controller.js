@@ -22,4 +22,10 @@ exports.signUserApi = async(request, response) => {
     } else {
         response.status(401).json({ error: "Unauthorized access" });
     }
-}
+};
+
+exports.userProfileApi = async(request, response) => {
+    const user = await userService.currentUser(request);
+
+    response.json({ data: user });
+};

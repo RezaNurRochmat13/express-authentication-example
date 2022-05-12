@@ -18,6 +18,7 @@ app.get('/', (request, response) => {
 // AUTH ENDPOINT
 app.post('/auth/signup', userController.createNewUserApi);
 app.post('/auth/signin', userController.signUserApi);
+app.get("/profile", userController.userProfileApi);
 
 // CAR ENDPOINT
 app.get('/cars', carController.findAllCarsApi);
