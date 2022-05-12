@@ -2,10 +2,9 @@ const express = require('express');
 const dotenv = require('dotenv');
 const formidable = require('express-formidable');
 const swaggerUi = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc');
 const app = express();
 const PORT = 8989;
-const userController = require('./controller/users.controller.js');
-const carController = require('./controller/cars.controller.js');
 
 // Load env variable
 dotenv.config();
@@ -13,30 +12,29 @@ dotenv.config();
 // Load swagger json
 swaggerDocument = require('./swagger.json');
 
-app.use(formidable());
+const options = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'Hello World',
+            version: '1.0.0',
+        },
+    },
+    // List of files to be processes. You can also set globs './routes/*.js'
+    apis: ['./routes/routes.js'],
+};
 
-app.get('/', (request, response) => {
-    response.json("Index page");
-});
+const specs = swaggerJsdoc(options);
+
+app.use(formidable());
+app.use(require('./routes/routes.js'));
 
 // SWAGGER API DOCS
 app.use(
     '/api-docs',
     swaggerUi.serve,
-    swaggerUi.setup(swaggerDocument)
+    swaggerUi.setup(specs)
 );
-
-// AUTH ENDPOINT
-app.post('/auth/signup', userController.createNewUserApi);
-app.post('/auth/signin', userController.signUserApi);
-app.get("/profile", userController.userProfileApi);
-
-// CAR ENDPOINT
-app.get('/cars', carController.findAllCarsApi);
-app.get('/cars/:id', carController.findCarByIdApi);
-app.post('/cars', carController.createNewCarApi);
-app.put('/cars/:id', carController.updateCarApi);
-app.delete('/cars/:id', carController.deleteCar);
 
 
 app.listen(PORT, () => {
