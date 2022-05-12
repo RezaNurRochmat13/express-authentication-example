@@ -6,7 +6,6 @@ exports.generateToken = async(payload) => {
 
 exports.decodeToken = async(token) => {
     const decodedToken = await jwt.decode(token);
-    console.info(decodedToken);
 
     return decodedToken;
 };
