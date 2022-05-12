@@ -15,27 +15,105 @@ const carController = require('../controller/cars.controller.js');
 router.get('/', (request, response) => {
     response.json("Index page");
 });
+// ===============================================
+
+/**
+ * @swagger
+ * definitions:
+ *   Signup:
+ *     required:
+ *       - email
+ *       - password
+ *       - role
+ *     properties:
+ *       email:
+ *         type: string
+ *       password:
+ *         type: string
+ *       role:
+ *         type: string
+ */
+
+/**
+ * @swagger
+ * definitions:
+ *   Signin:
+ *     required:
+ *       - email
+ *       - password
+ *     properties:
+ *       email:
+ *         type: string
+ *       password:
+ *         type: string
+ */
+
+
+/**
+ * @swagger
+ * tags:
+ *   - name: Auth
+ *     description: Authenticate User
+ *   - name: Cars
+ *     description: Cars
+ */
 
 // AUTH ENDPOINT
 /**
- * @openapi
+ * @swagger
  * /auth/signup:
  *   post:
- *     description: Signup User
+ *     description: Register member and admin
+ *     tags: [Auth]
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: email
+ *         description: User's email.
+ *         required: true
+ *         in: formData
+ *         type: string
+ *       - name: password
+ *         description: User's password.
+ *         required: true
+ *         type: string
+ *       - name: role
+ *         description: User's role.
+ *         required: true
+ *         type: string
  *     responses:
- *       200:
- *         description: Returns a created new user
+ *       201:
+ *         description: login
+ *         schema:
+ *           type: object
+ *           $ref: '#/definitions/Signup'
  */
 router.post('/auth/signup', userController.createNewUserApi);
 
 /**
- * @openapi
+ * @swagger
  * /auth/signin:
  *   post:
- *     description: Signup User
+ *     description: Login to app
+ *     tags: [Auth]
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: email
+ *         description: User's email.
+ *         required: true
+ *         in: formData
+ *         type: string
+ *       - name: password
+ *         description: User's password.
+ *         required: true
+ *         type: string
  *     responses:
  *       200:
- *         description: Returns a logged in user
+ *         description: login
+ *         schema:
+ *           type: object
+ *           $ref: '#/definitions/Signin'
  */
 router.post('/auth/signin', userController.signUserApi);
 
@@ -49,6 +127,8 @@ router.post('/auth/signin', userController.signUserApi);
  *         description: Returns a current user
  */
 router.get("/auth/profile", userController.userProfileApi);
+
+//============================================================
 
 // CAR ENDPOINT
 /**
