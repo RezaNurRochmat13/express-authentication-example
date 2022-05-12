@@ -1,6 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const formidable = require('express-formidable');
+const swaggerUi = require('swagger-ui-express');
 const app = express();
 const PORT = 8989;
 const userController = require('./controller/users.controller.js');
@@ -9,11 +10,21 @@ const carController = require('./controller/cars.controller.js');
 // Load env variable
 dotenv.config();
 
+// Load swagger json
+swaggerDocument = require('./swagger.json');
+
 app.use(formidable());
 
 app.get('/', (request, response) => {
     response.json("Index page");
 });
+
+// SWAGGER API DOCS
+app.use(
+    '/api-docs',
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerDocument)
+);
 
 // AUTH ENDPOINT
 app.post('/auth/signup', userController.createNewUserApi);
