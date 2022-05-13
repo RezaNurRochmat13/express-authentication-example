@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const authMiddleware = require('../middleware/middleware.js');
 const userController = require('../controller/users.controller.js');
 const carController = require('../controller/cars.controller.js');
 
@@ -166,7 +167,7 @@ router.get("/auth/profile", userController.userProfileApi);
  *       200:
  *         description: cars
  */
-router.get('/cars', carController.findAllCarsApi);
+router.get('/cars', authMiddleware.authorizationToken, carController.findAllCarsApi);
 
 /**
  * @swagger
@@ -183,7 +184,7 @@ router.get('/cars', carController.findAllCarsApi);
  *       200:
  *         description: cars by id
  */
-router.get('/cars/:id', carController.findCarByIdApi);
+router.get('/cars/:id', authMiddleware.authorizationToken, carController.findCarByIdApi);
 
 /**
  * @swagger
@@ -221,7 +222,7 @@ router.get('/cars/:id', carController.findCarByIdApi);
  *           type: object
  *           $ref: '#/definitions/Create_Update_Car'
  */
-router.post('/cars', carController.createNewCarApi);
+router.post('/cars', authMiddleware.authorizationToken, carController.createNewCarApi);
 
 /**
  * @swagger
@@ -264,7 +265,7 @@ router.post('/cars', carController.createNewCarApi);
  *           type: object
  *           $ref: '#/definitions/Create_Update_Car'
  */
-router.put('/cars/:id', carController.updateCarApi);
+router.put('/cars/:id', authMiddleware.authorizationToken, carController.updateCarApi);
 
 /**
  * @swagger
@@ -281,6 +282,6 @@ router.put('/cars/:id', carController.updateCarApi);
  *       200:
  *         description: cars by id
  */
-router.delete('/cars/:id', carController.deleteCar);
+router.delete('/cars/:id', authMiddleware.authorizationToken, carController.deleteCar);
 
 module.exports = router;
