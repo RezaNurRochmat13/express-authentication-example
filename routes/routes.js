@@ -150,7 +150,7 @@ router.post('/auth/signin', userController.signUserApi);
  *       200:
  *         description: profile
  */
-router.get("/auth/profile", userController.userProfileApi);
+router.get("/auth/profile", authMiddleware.authorizationToken, userController.userProfileApi);
 
 //============================================================
 
