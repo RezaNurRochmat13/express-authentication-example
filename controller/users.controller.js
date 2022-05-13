@@ -13,7 +13,8 @@ exports.signUserApi = async(request, response) => {
     if (user) {
         const payloadToken = {
             id: user.id,
-            email: user.email
+            email: user.email,
+            role: user.role.name
         };
 
         const tokens = await jwtUtil.generateToken(payloadToken);

@@ -1,6 +1,8 @@
-const userRepository = require('../repository/users.repository.js');
 const bcrypt = require('bcrypt');
 const jwtUtil = require('../util/jwt.util.js');
+const userRepository = require('../repository/users.repository.js');
+const roleRepository = require('../repository/role.repository.js');
+
 
 exports.createUser = async(payload) => {
     const salt = await bcrypt.genSalt(10);
@@ -28,9 +30,12 @@ exports.signInUser = async(payload) => {
     const user = await userRepository.findByEmail(payload.fields.email);
 
     if (user != null) {
+        const roleById = await roleRepository.findById(user.id_role);
         const checkPassword = await bcrypt.compare(
             payload.fields.password, user.password
         );
+
+        user.role = roleById;
 
         if (checkPassword) {
             return user;
