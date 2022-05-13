@@ -48,6 +48,26 @@ router.get('/', (request, response) => {
  *         type: string
  */
 
+/**
+ * @swagger
+ * definitions:
+ *   Create_Update_Car:
+ *     required:
+ *       - nama
+ *       - sewa
+ *       - foto
+ *       - ukuran
+ *     properties:
+ *       nama:
+ *         type: string
+ *       sewa:
+ *         type: string
+ *       foto:
+ *         type: string
+ *       ukuran:
+ *         type: string
+ */
+
 
 /**
  * @swagger
@@ -118,13 +138,16 @@ router.post('/auth/signup', userController.createNewUserApi);
 router.post('/auth/signin', userController.signUserApi);
 
 /**
- * @openapi
+ * @swagger
  * /auth/profile:
  *   get:
- *     description: Signup User
+ *     description: Current user
+ *     tags: [Auth]
+ *     produces:
+ *       - application/json
  *     responses:
  *       200:
- *         description: Returns a current user
+ *         description: profile
  */
 router.get("/auth/profile", userController.userProfileApi);
 
@@ -132,57 +155,131 @@ router.get("/auth/profile", userController.userProfileApi);
 
 // CAR ENDPOINT
 /**
- * @openapi
+ * @swagger
  * /cars:
  *   get:
- *     description: All Cars
+ *     description: Get all cars
+ *     tags: [Cars]
+ *     produces:
+ *       - application/json
  *     responses:
  *       200:
- *         description: Returns a all cars data
+ *         description: cars
  */
 router.get('/cars', carController.findAllCarsApi);
 
 /**
- * @openapi
+ * @swagger
  * /cars/:id:
  *   get:
- *     description: Detail Cars By ID
+ *     description: Get all cars
+ *     tags: [Cars]
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *       - type: string
  *     responses:
  *       200:
- *         description: Returns a single cars by id
+ *         description: cars by id
  */
 router.get('/cars/:id', carController.findCarByIdApi);
 
 /**
- * @openapi
+ * @swagger
  * /cars:
  *   post:
- *     description: Create new car
+ *     description: Create new cars
+ *     tags: [Cars]
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: nama
+ *         description: Car's name.
+ *         required: true
+ *         in: formData
+ *         type: string
+ *       - name: sewa
+ *         description: Car's price.
+ *         required: true
+ *         in: formData
+ *         type: integer
+ *       - name: ukuran
+ *         description: Car's size.
+ *         required: true
+ *         in: formData
+ *         type: integer
+ *       - name: foto
+ *         description: Car's photo.
+ *         required: true
+ *         in: formData
+ *         type: string/file
  *     responses:
- *       200:
- *         description: Returns a created new car
+ *       201:
+ *         description: create car
+ *         schema:
+ *           type: object
+ *           $ref: '#/definitions/Create_Update_Car'
  */
 router.post('/cars', carController.createNewCarApi);
 
 /**
- * @openapi
+ * @swagger
  * /cars/:id:
  *   put:
- *     description: Update car by id
+ *     description: Update cars by id
+ *     tags: [Cars]
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         description: Car's id.
+ *         required: true
+ *         in: formData
+ *         type: string
+ *       - name: nama
+ *         description: Car's name.
+ *         required: true
+ *         in: formData
+ *         type: string
+ *       - name: sewa
+ *         description: Car's price.
+ *         required: true
+ *         in: formData
+ *         type: integer
+ *       - name: ukuran
+ *         description: Car's size.
+ *         required: true
+ *         in: formData
+ *         type: integer
+ *       - name: foto
+ *         description: Car's photo.
+ *         required: true
+ *         in: formData
+ *         type: string/file
  *     responses:
  *       200:
- *         description: Returns a update car
+ *         description: update car
+ *         schema:
+ *           type: object
+ *           $ref: '#/definitions/Create_Update_Car'
  */
 router.put('/cars/:id', carController.updateCarApi);
 
 /**
- * @openapi
+ * @swagger
  * /cars/:id:
  *   delete:
- *     description: Delete car
+ *     description: Delete cars by id
+ *     tags: [Cars]
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *       - type: string
  *     responses:
  *       200:
- *         description: Returns a delete car
+ *         description: cars by id
  */
 router.delete('/cars/:id', carController.deleteCar);
 
