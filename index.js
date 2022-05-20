@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const formidable = require('express-formidable');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
+const cors = require('cors');
 const app = express();
 const PORT = 8989;
 
@@ -23,11 +24,16 @@ const options = {
     // List of files to be processes. You can also set globs './routes/*.js'
     apis: ['./routes/routes.js'],
 };
+var corsOptions = {
+    origin: '*',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
 
 const specs = swaggerJsdoc(options);
 
 app.use(formidable());
 app.use(require('./routes/routes.js'));
+app.use(cors(corsOptions));
 
 // SWAGGER API DOCS
 app.use(

@@ -1,8 +1,16 @@
 const express = require('express');
+const cors = require('cors');
 const router = express.Router();
 const authMiddleware = require('../middleware/middleware.js');
 const userController = require('../controller/users.controller.js');
 const carController = require('../controller/cars.controller.js');
+
+var corsOptions = {
+    origin: '*',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+
+router.use(cors(corsOptions));
 
 /**
  * @openapi
