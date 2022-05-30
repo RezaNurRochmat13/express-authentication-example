@@ -4,8 +4,15 @@ const formidable = require('express-formidable');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const cors = require('cors');
+const http = require('http');
+const { Server } = require('socket.io');
 const app = express();
 const PORT = 8989;
+const appServer = require("./websocket");
+
+// Inject websocket
+const server = http.createServer(appServer);
+const io = new Server(server);
 
 // Load env variable
 dotenv.config();
@@ -41,6 +48,19 @@ app.use(
     swaggerUi.serve,
     swaggerUi.setup(specs)
 );
+
+// Websocket request
+io.on("connection", (socket) => {
+    console.info("Seseorang telah masuk ke room");
+
+    socket.on("chat message", (message) => {
+        io.emit('incoming message : ' + message);
+    });
+
+    socket.on("disconnect", () => {
+        console.info("Seseorang telah keluar dari chat");
+    });
+})
 
 
 app.listen(PORT, () => {
