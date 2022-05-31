@@ -8,11 +8,17 @@ const http = require('http');
 const { Server } = require('socket.io');
 const app = express();
 const PORT = 8989;
-const appServer = require("./websocket");
+// const appServer = require("./websocket");
 
 // Inject websocket
-const server = http.createServer(appServer);
-const io = new Server(server);
+const server = http.createServer(app);
+const io = new Server(server, {
+    cors: {
+        origin: "*", // TODO: Ganti jadi URL react-mu
+        methods: "*",
+      },
+    
+});
 
 // Load env variable
 dotenv.config();
@@ -53,8 +59,8 @@ app.use(
 io.on("connection", (socket) => {
     console.info("Seseorang telah masuk ke room");
 
-    socket.on("chat message", (message) => {
-        io.emit('incoming message : ' + message);
+    socket.on("send_message", (message) => {
+        socket.emit('incoming_message', message);
     });
 
     socket.on("disconnect", () => {
@@ -63,6 +69,6 @@ io.on("connection", (socket) => {
 })
 
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.info(`Server running at locahost:${PORT}`);
 });
